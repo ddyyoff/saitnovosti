@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Домодедово·Инфо — Городская независимая газета</title>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0D1B2A;
+  --navy2:#132233;
+  --navy3:#1a2e45;
+  --accent:#E63946;
+  --text:#EEF4FA;
+  --text2:#a8c0d8;
+  --text3:#6a8aaa;
+  --border:rgba(120,160,200,0.13);
+  --border2:rgba(120,160,200,0.22);
+}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;line-height:1.7;min-height:100vh}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--navy)}
+::-webkit-scrollbar-thumb{background:var(--navy3);border-radius:3px}
+
+/* HEADER */
+header{border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;background:rgba(13,27,42,.97);backdrop-filter:blur(10px)}
+.header-top{max-width:1160px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+.logo{text-decoration:none;display:flex;flex-direction:column;line-height:1.1;flex-shrink:0}
+.logo-main{font-family:'PT Serif',serif;font-size:26px;font-weight:700;color:#fff;letter-spacing:-.5px}
+.logo-dot{color:var(--accent)}
+.logo-sub{font-size:10px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-top:1px}
+.search-wrap{flex:1;max-width:380px;position:relative}
+.search-wrap input{width:100%;background:var(--navy2);border:1px solid var(--border);border-radius:6px;padding:8px 16px 8px 38px;font-size:13px;color:var(--text);outline:none;transition:border .2s;font-family:inherit}
+.search-wrap input::placeholder{color:var(--text3)}
+.search-wrap input:focus{border-color:var(--border2)}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text3);pointer-events:none}
+.search-results{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--navy2);border:1px solid var(--border2);border-radius:6px;overflow:hidden;display:none;z-index:200;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.search-results.open{display:block}
+.search-result-item{padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s;font-size:13px}
+.search-result-item:last-child{border-bottom:none}
+.search-result-item:hover{background:var(--navy3)}
+.search-result-item .sr-tag{font-size:10px;color:var(--accent);font-weight:600;text-transform:uppercase;margin-bottom:2px}
+.search-result-item .sr-title{color:var(--text)}
+.header-date{font-size:12px;color:var(--text3);white-space:nowrap;flex-shrink:0}
+
+/* NAV */
+.nav-bar{border-bottom:1px solid var(--border);background:var(--navy);position:sticky;top:64px;z-index:99}
+.nav-inner{max-width:1160px;margin:0 auto;padding:0 20px;display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-btn{padding:12px 16px;font-size:13px;font-weight:500;color:var(--text3);cursor:pointer;border:none;background:none;white-space:nowrap;transition:color .2s;position:relative;border-bottom:2px solid transparent;margin-bottom:-1px}
+.nav-btn:hover{color:var(--text)}
+.nav-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* PAGE */
+#app{max-width:1160px;margin:0 auto;padding:28px 20px 60px}
+
+/* HOME HERO */
+.home-hero{display:grid;grid-template-columns:2fr 1fr;gap:2px;margin-bottom:2px;border-radius:8px;overflow:hidden}
+.hero-main{position:relative;cursor:pointer;background:var(--navy2);overflow:hidden}
+.hero-main img,.hero-card img{width:100%;height:100%;object-fit:cover;transition:transform .4s;display:block}
+.hero-main:hover img,.hero-card:hover img{transform:scale(1.03)}
+.hero-main-img{height:420px;overflow:hidden}
+.hero-side{display:flex;flex-direction:column;gap:2px}
+.hero-card{position:relative;cursor:pointer;background:var(--navy2);overflow:hidden;flex:1}
+.hero-card-img{height:100%;min-height:140px;overflow:hidden}
+.hero-overlay-content{position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(to top,rgba(8,18,28,.92) 0%,rgba(8,18,28,.3) 60%,transparent 100%)}
+.hero-tag{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:3px 8px;border-radius:2px;background:var(--accent);color:#fff;margin-bottom:8px}
+.hero-main .hero-title{font-family:'PT Serif',serif;font-size:22px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:6px}
+.hero-card .hero-title{font-family:'PT Serif',serif;font-size:15px;font-weight:700;color:#fff;line-height:1.3}
+.hero-time{font-size:11px;color:rgba(255,255,255,.55);margin-top:4px}
+
+/* SECTIONS */
+.section{margin:40px 0}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.section-title{font-family:'PT Serif',serif;font-size:20px;font-weight:700;color:#fff;display:flex;align-items:center;gap:10px}
+.section-title::before{content:'';display:block;width:4px;height:22px;background:var(--accent);border-radius:2px;flex-shrink:0}
+.section-more{font-size:12px;color:var(--accent);cursor:pointer;font-weight:500;border:1px solid rgba(230,57,70,.3);padding:4px 12px;border-radius:20px;background:none;transition:all .2s}
+.section-more:hover{background:rgba(230,57,70,.1)}
+
+/* NEWS GRID */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.news-card{background:var(--navy2);border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:all .2s}
+.news-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.news-card-img{height:160px;overflow:hidden;background:var(--navy3)}
+.news-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s;display:block}
+.news-card:hover .news-card-img img{transform:scale(1.05)}
+.news-card-body{padding:14px}
+.news-card-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:6px}
+.news-card-title{font-family:'PT Serif',serif;font-size:15px;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:8px}
+.news-card-lead{font-size:12px;color:var(--text2);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.news-card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:11px;color:var(--text3)}
+
+/* NEWS LIST */
+.news-list{display:flex;flex-direction:column;gap:12px}
+.news-list-item{background:var(--navy2);border:1px solid var(--border);border-radius:8px;padding:16px;display:flex;gap:16px;cursor:pointer;transition:all .2s}
+.news-list-item:hover{border-color:var(--border2);background:var(--navy3)}
+.news-list-img{width:100px;height:72px;flex-shrink:0;border-radius:5px;overflow:hidden;background:var(--navy3)}
+.news-list-img img{width:100%;height:100%;object-fit:cover;display:block}
+.news-list-body{flex:1}
+.news-list-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:4px}
+.news-list-title{font-family:'PT Serif',serif;font-size:16px;font-weight:700;color:var(--text);line-height:1.35;margin-bottom:4px}
+.news-list-lead{font-size:13px;color:var(--text2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.news-list-meta{font-size:11px;color:var(--text3);margin-top:6px}
+
+/* SIDEBAR */
+.sidebar-layout{display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start}
+.widget{background:var(--navy2);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:20px}
+.widget-head{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--text3);padding:12px 16px;border-bottom:1px solid var(--border)}
+.top-item{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.04);display:flex;gap:10px;align-items:flex-start;cursor:pointer;transition:background .15s}
+.top-item:last-child{border-bottom:none}
+.top-item:hover{background:var(--navy3)}
+.top-num{font-family:'PT Serif',serif;font-size:20px;font-weight:700;color:rgba(255,255,255,.1);line-height:1;min-width:20px;margin-top:1px}
+.top-title{font-size:12px;color:var(--text2);line-height:1.4}
+.top-title time{display:block;font-size:10px;color:var(--text3);margin-top:3px}
+.weather-widget{padding:16px}
+.weather-big{font-size:40px;font-weight:600;color:#fff;line-height:1}
+.weather-desc{font-size:13px;color:var(--text2);margin-top:4px}
+.weather-row{display:flex;gap:16px;margin-top:14px}
+.weather-mini{flex:1;background:var(--navy3);border-radius:5px;padding:10px;text-align:center}
+.weather-mini .day{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+.weather-mini .temp{font-size:16px;font-weight:600;color:var(--text);margin-top:2px}
+
+/* ARTICLE */
+.article-page{max-width:760px}
+.article-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.art-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:4px 10px;border-radius:3px;background:rgba(230,57,70,.12);color:var(--accent);border:1px solid rgba(230,57,70,.25)}
+.article-eyebrow time{font-size:12px;color:var(--text3)}
+h1.art-title{font-family:'PT Serif',serif;font-size:clamp(22px,3vw,34px);font-weight:700;line-height:1.25;color:#fff;margin-bottom:14px;letter-spacing:-.3px}
+.art-lead{font-size:17px;color:#c0d0e0;line-height:1.65;border-left:3px solid var(--accent);padding-left:16px;margin-bottom:24px}
+.art-meta{display:flex;align-items:center;gap:14px;padding:12px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:28px;font-size:13px;color:var(--text3);flex-wrap:wrap}
+.art-meta .author{color:var(--text);font-weight:500}
+.art-hero{width:100%;height:340px;border-radius:8px;overflow:hidden;margin-bottom:24px;border:1px solid var(--border)}
+.art-hero img{width:100%;height:100%;object-fit:cover;display:block}
+.art-hero-cap{font-size:12px;color:var(--text3);margin-top:-18px;margin-bottom:24px;font-style:italic}
+.art-body p{margin-bottom:18px;font-size:15.5px;color:#cde0f5;line-height:1.8}
+.art-body h2{font-family:'PT Serif',serif;font-size:20px;font-weight:700;color:#fff;margin:34px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.pullquote{margin:28px 0;padding:18px 22px;background:var(--navy2);border-radius:6px;border-left:4px solid var(--accent)}
+.pullquote p{font-family:'PT Serif',serif;font-size:17px;font-style:italic;color:#daeefa;margin:0 0 8px;line-height:1.5}
+.pullquote cite{font-size:12px;font-style:normal;color:var(--text3);font-weight:500;letter-spacing:.05em;text-transform:uppercase}
+.incident-box{background:var(--navy2);border:1px solid var(--border);border-radius:6px;padding:18px;margin:24px 0}
+.incident-box h3{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--text3);margin-bottom:12px}
+.i-row{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:13.5px}
+.i-row:last-child{border-bottom:none}
+.i-date{font-weight:600;color:var(--accent);min-width:95px;flex-shrink:0}
+.i-desc{color:var(--text2)}
+.art-tags{margin-top:32px;padding-top:18px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:8px}
+.art-tags span{font-size:11px;padding:4px 12px;border:1px solid var(--border);border-radius:20px;color:var(--text3);cursor:pointer;transition:all .2s}
+.art-tags span:hover{border-color:rgba(230,57,70,.4);color:var(--accent)}
+.related-section{margin-top:40px;padding-top:28px;border-top:1px solid var(--border)}
+.related-section h3{font-family:'PT Serif',serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:16px}
+
+/* BACK BTN */
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text3);cursor:pointer;background:none;border:none;padding:0;margin-bottom:20px;transition:color .2s;font-family:inherit}
+.back-btn:hover{color:var(--text)}
+.back-btn svg{width:14px;height:14px}
+
+/* CAT PAGE */
+.cat-hero{background:var(--navy2);border-radius:8px;padding:28px;margin-bottom:28px;border:1px solid var(--border);display:flex;align-items:center;gap:16px}
+.cat-icon{width:52px;height:52px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:24px}
+.cat-name{font-family:'PT Serif',serif;font-size:24px;font-weight:700;color:#fff}
+.cat-count{font-size:13px;color:var(--text3);margin-top:2px}
+
+/* ABOUT */
+.about-page{max-width:720px}
+.about-page h1{font-family:'PT Serif',serif;font-size:30px;font-weight:700;color:#fff;margin-bottom:20px}
+.about-page h2{font-family:'PT Serif',serif;font-size:20px;font-weight:700;color:#fff;margin:28px 0 12px}
+.about-page p{font-size:15px;color:var(--text2);line-height:1.75;margin-bottom:14px}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.team-card{background:var(--navy2);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center}
+.team-avatar{width:56px;height:56px;border-radius:50%;background:var(--navy3);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:var(--text3)}
+.team-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px}
+.team-role{font-size:12px;color:var(--text3)}
+
+/* CONTACTS */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+.contact-card{background:var(--navy2);border:1px solid var(--border);border-radius:8px;padding:18px}
+.contact-card h3{font-size:13px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px}
+.contact-card p{font-size:14px;color:var(--text2);line-height:1.6}
+.contact-card a{color:var(--accent);text-decoration:none}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);background:var(--navy)}
+.footer-inner{max-width:1160px;margin:0 auto;padding:32px 20px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px}
+.footer-logo{font-family:'PT Serif',serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:8px}
+.footer-desc{font-size:13px;color:var(--text3);line-height:1.6}
+.footer-col h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:12px}
+.footer-col a{display:block;font-size:13px;color:var(--text2);text-decoration:none;margin-bottom:7px;transition:color .2s;cursor:pointer}
+.footer-col a:hover{color:var(--accent)}
+.footer-bottom{border-top:1px solid var(--border);padding:16px 20px;max-width:1160px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text3);flex-wrap:wrap;gap:8px}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--navy2);border:1px solid var(--border2);border-radius:6px;padding:12px 18px;font-size:13px;color:var(--text);z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+
+@media(max-width:900px){
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .home-hero{grid-template-columns:1fr}
+  .hero-side{flex-direction:row}
+  .hero-card-img{min-height:120px}
+  .sidebar-layout{grid-template-columns:1fr}
+  .footer-inner{grid-template-columns:1fr 1fr}
+  .team-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  .news-grid{grid-template-columns:1fr}
+  .hero-side{flex-direction:column}
+  .footer-inner{grid-template-columns:1fr}
+  .team-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+  .header-date{display:none}
+  .search-wrap{max-width:200px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <a class="logo" onclick="navigate('home')" href="javascript:void(0)">
+      <span class="logo-main">Домодедово<span class="logo-dot">·</span>Инфо</span>
+      <span class="logo-sub">Городская независимая газета</span>
+    </a>
+    <div class="search-wrap">
+      <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Поиск по сайту..." id="searchInput" autocomplete="off">
+      <div class="search-results" id="searchResults"></div>
+    </div>
+    <span class="header-date" id="headerDate"></span>
+  </div>
+</header>
+
+<div class="nav-bar">
+  <div class="nav-inner" id="navBar"></div>
+</div>
+
+<div id="app"></div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Домодедово<span style="color:var(--accent)">·</span>Инфо</div>
+      <p class="footer-desc">Независимое городское издание. Освещаем жизнь Домодедово с 2018 года. Публикуем новости о ЖКХ, происшествиях, городской политике и обществе.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Рубрики</h4>
+      <a onclick="navigate('cat','incidents')">Происшествия</a>
+      <a onclick="navigate('cat','zhkh')">ЖКХ</a>
+      <a onclick="navigate('cat','politics')">Власть</a>
+      <a onclick="navigate('cat','society')">Общество</a>
+      <a onclick="navigate('cat','sports')">Спорт</a>
+    </div>
+    <div class="footer-col">
+      <h4>Редакция</h4>
+      <a onclick="navigate('about')">О нас</a>
+      <a onclick="navigate('contacts')">Контакты</a>
+      <a onclick="navigate('about')">Наша команда</a>
+      <a>Реклама</a>
+    </div>
+    <div class="footer-col">
+      <h4>Полезно</h4>
+      <a href="https://dobrodel.mosreg.ru" target="_blank">Добродел</a>
+      <a href="https://domodedovo.ru" target="_blank">Сайт города</a>
+      <a>Горячая линия ЖКХ</a>
+      <a>Участковый</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Домодедово·Инфо — все права защищены</span>
+    <span>г. Домодедово, Московская область</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const CATEGORIES = [
+  {id:'all',    label:'Все новости',  icon:'📰', color:'#6a8aaa'},
+  {id:'incidents',label:'Происшествия',icon:'🚨',color:'#E63946'},
+  {id:'zhkh',   label:'ЖКХ',          icon:'🏠', color:'#2196F3'},
+  {id:'politics',label:'Власть',       icon:'🏛️', color:'#9C27B0'},
+  {id:'society',label:'Общество',      icon:'👥', color:'#4CAF50'},
+  {id:'sports', label:'Спорт',         icon:'⚽', color:'#FF9800'},
+  {id:'about',  label:'О редакции',   icon:'ℹ️', color:'#607D8B'},
+  {id:'contacts',label:'Контакты',    icon:'📞', color:'#607D8B'},
+];
+
+// Изображения — picsum.photos с фиксированными seed-ами
+const ARTICLES = [
+  {
+    id:1, cat:'incidents',
+    title:'«Снова сломали замок»: руферы терроризируют жителей дома на улице 25 лет Октября',
+    lead:'Жители дома 14к1 по улице 25 лет Октября бьют тревогу: неизвестные систематически взламывают навесной замок на чердак во втором подъезде.',
+    date:'2026-06-09', dateStr:'9 июня 2026', author:'Редакция', views:1847, breaking:true,
+    img:'https://i.ibb.co/wh5MMPTs/2026-06-09-094147.png',
+    imgMd:'https://i.ibb.co/wh5MMPTs/2026-06-09-094147.png',
+    imgSm:'https://i.ibb.co/wh5MMPTs/2026-06-09-094147.png',
+    body:`<p>Несколько жителей многоквартирного дома по адресу улица 25 лет Октября, 14к1 обратились в редакцию с просьбой привлечь внимание к проблеме, которая беспокоит их уже не первый месяц. По словам обращавшихся, неизвестные молодые люди — предположительно руферы — регулярно проникают на крышу дома через второй подъезд, взламывая навесной замок на чердачном люке.</p>
+<div class="pullquote"><p>«Мы уже несколько раз меняли замок за свой счёт. Управляющая компания отвечает только отписками. А ночью над головой кто-то ходит — страшно и детям, и пожилым соседям».</p><cite>— Жительница второго подъезда, Ирина В.</cite></div>
+<p>По данным очевидцев, молодые люди появляются преимущественно в вечернее и ночное время. Они поднимаются на крышу, проводят там время, а порой оставляют за собой мусор и следы пикников.</p>
+<h2>Хроника взломов</h2>
+<div class="incident-box"><h3>Известные случаи проникновения</h3>
+<div class="i-row"><span class="i-date">3 июня 2026</span><span class="i-desc">Последний зафиксированный взлом навесного замка во 2-м подъезде.</span></div>
+<div class="i-row"><span class="i-date">Апрель–май</span><span class="i-desc">Несколько эпизодов: жители обнаруживали сломанный или срезанный замок.</span></div>
+<div class="i-row"><span class="i-date">Начало 2026</span><span class="i-desc">Первые жалобы в управляющую компанию. Реакции не последовало.</span></div></div>
+<h2>Реакция управляющей компании</h2>
+<p>Жители утверждают, что неоднократно обращались в управляющую компанию. Однако меры так и не были приняты: замок меняли сами жильцы в складчину.</p>
+<div class="pullquote"><p>«Если управляющая компания не реагирует, жильцы вправе зафиксировать факт взлома, вызвать полицию и написать заявление».</p><cite>— Районная юридическая консультация</cite></div>`,
+    tags:['Происшествия','Руферы','ЖКХ','25 лет Октября','Безопасность'],
+  },
+  {
+    id:2, cat:'zhkh',
+    title:'Коммунальная авария на Каширском шоссе: без горячей воды остались 12 домов',
+    lead:'Прорыв трубы горячего водоснабжения на Каширском шоссе оставил без горячей воды более 2 000 жителей. Аварийные службы работают в круглосуточном режиме.',
+    date:'2026-06-08', dateStr:'8 июня 2026', author:'Алексей Громов', views:3214, breaking:false,
+    img:'https://media.360.ru/get_resized/xZTDJxxZwQBTsFPOnaN-2SdC3vw=/1920x1080/filters:rs(fill-down):format(webp)/YXJ0aWNsZXMvaW1hZ2UvMjAyNC8xL2U0MTQ3ZDgyZjE0YjllOTY0NTRmOWM1ZjdlOTgwZDNlLWFoNjdmMHhfM1VVaFZZVS5qcGc.webp?w=1920',
+    imgMd:'https://media.360.ru/get_resized/xZTDJxxZwQBTsFPOnaN-2SdC3vw=/1920x1080/filters:rs(fill-down):format(webp)/YXJ0aWNsZXMvaW1hZ2UvMjAyNC8xL2U0MTQ3ZDgyZjE0YjllOTY0NTRmOWM1ZjdlOTgwZDNlLWFoNjdmMHhfM1VVaFZZVS5qcGc.webp?w=1920',
+    imgSm:'https://media.360.ru/get_resized/xZTDJxxZwQBTsFPOnaN-2SdC3vw=/1920x1080/filters:rs(fill-down):format(webp)/YXJ0aWNsZXMvaW1hZ2UvMjAyNC8xL2U0MTQ3ZDgyZjE0YjllOTY0NTRmOWM1ZjdlOTgwZDNlLWFoNjdmMHhfM1VVaFZZVS5qcGc.webp?w=1920',
+    body:`<p>Вечером 7 июня на Каширском шоссе произошёл прорыв трубы горячего водоснабжения. В результате аварии без горячей воды остались жители 12 домов.</p>
+<div class="incident-box"><h3>Затронутые адреса</h3>
+<div class="i-row"><span class="i-date">Каширское ш., 1–7</span><span class="i-desc">Все нечётные номера, горячая вода отключена</span></div>
+<div class="i-row"><span class="i-date">ул. Зеленодольская</span><span class="i-desc">Дома 3, 5, 9, 11, 15</span></div>
+<div class="i-row"><span class="i-date">мкр. Авиационный</span><span class="i-desc">Корпуса 1а, 2б — частичное отключение</span></div></div>
+<div class="pullquote"><p>«Мы понимаем неудобства для жителей и делаем всё возможное для скорейшего устранения аварии».</p><cite>— Пресс-служба МУП «Домодедово-Теплосеть»</cite></div>`,
+    tags:['ЖКХ','Авария','Горячая вода','Каширское шоссе'],
+  },
+  {
+    id:3, cat:'politics',
+    title:'Глава округа представил план развития парковой зоны у аэропорта на 2026–2028 годы',
+    lead:'На заседании городского совета был представлен трёхлетний план благоустройства. Предусмотрено создание новых пешеходных зон, велодорожек и зелёных насаждений.',
+    date:'2026-06-07', dateStr:'7 июня 2026', author:'Марина Воронова', views:987, breaking:false,
+    img:'https://avatars.mds.yandex.net/i?id=c94dda737048f28aa8b2fb369ced3e8d99150b64-5713119-images-thumbs&n=13',
+    imgMd:'https://avatars.mds.yandex.net/i?id=c94dda737048f28aa8b2fb369ced3e8d99150b64-5713119-images-thumbs&n=13',
+    imgSm:'https://avatars.mds.yandex.net/i?id=c94dda737048f28aa8b2fb369ced3e8d99150b64-5713119-images-thumbs&n=13',
+    body:`<p>На очередном заседании городского совета глава округа представил масштабный план благоустройства парковой зоны у аэропорта на 2026–2028 годы.</p>
+<div class="incident-box"><h3>Этапы реализации</h3>
+<div class="i-row"><span class="i-date">2026</span><span class="i-desc">Реконструкция аллеи, посадка 500 деревьев, освещение</span></div>
+<div class="i-row"><span class="i-date">2027</span><span class="i-desc">Велодорожка, площадки для отдыха, фонтан</span></div>
+<div class="i-row"><span class="i-date">2028</span><span class="i-desc">Амфитеатр на 800 мест для городских мероприятий</span></div></div>`,
+    tags:['Власть','Благоустройство','Парк','Бюджет'],
+  },
+  {
+    id:4, cat:'society',
+    title:'В Домодедово открылась первая в области бесплатная юридическая клиника для пенсионеров',
+    lead:'Молодые юристы и студенты-правоведы теперь принимают пожилых граждан дважды в неделю. Консультации охватывают вопросы ЖКХ, социальных выплат и наследства.',
+    date:'2026-06-06', dateStr:'6 июня 2026', author:'Светлана Ковалёва', views:2103, breaking:false,
+    img:'https://alrf.ru/upload/resize_cache/iblock/308/1005_580_2/19_04_2024_1.jpg',
+    imgMd:'https://alrf.ru/upload/resize_cache/iblock/308/1005_580_2/19_04_2024_1.jpg',
+    imgSm:'https://alrf.ru/upload/resize_cache/iblock/308/1005_580_2/19_04_2024_1.jpg',
+    body:`<p>В Домодедово открылась бесплатная юридическая клиника — первая в Московской области, ориентированная на помощь пенсионерам.</p>
+<h2>Как попасть на приём</h2>
+<p>Клиника работает по вторникам и четвергам с 10:00 до 15:00 по адресу: ул. Советская, 15, каб. 204 (здание МФЦ).</p>
+<div class="pullquote"><p>«Хочется, чтобы люди знали свои права и умели их защищать».</p><cite>— Анна Титова, координатор клиники</cite></div>`,
+    tags:['Общество','Пенсионеры','Юридическая помощь','Социальная поддержка'],
+  },
+  {
+    id:5, cat:'sports',
+    title:'ФК «Домодедово» вышел в финал областного первенства впервые за 14 лет',
+    lead:'Местная футбольная команда одержала победу в полуфинале Московской областной лиги со счётом 3:1. Финал состоится 21 июня на центральном стадионе.',
+    date:'2026-06-05', dateStr:'5 июня 2026', author:'Дмитрий Орлов', views:4521, breaking:false,
+    img:'https://avatars.mds.yandex.net/i?id=67bb8df3649edf9e0595e11440c27914ce1c6db0-16360488-images-thumbs&n=13',
+    imgMd:'https://avatars.mds.yandex.net/i?id=67bb8df3649edf9e0595e11440c27914ce1c6db0-16360488-images-thumbs&n=13',
+    imgSm:'https://avatars.mds.yandex.net/i?id=67bb8df3649edf9e0595e11440c27914ce1c6db0-16360488-images-thumbs&n=13',
+    body:`<p>ФК «Домодедово» одержал уверенную победу в полуфинале, обыграв «Серпухов-Юг» со счётом 3:1.</p>
+<div class="incident-box"><h3>Протокол матча: Домодедово 3:1 Серпухов-Юг</h3>
+<div class="i-row"><span class="i-date">14 мин</span><span class="i-desc">Гол — Артём Власов</span></div>
+<div class="i-row"><span class="i-date">37 мин</span><span class="i-desc">Гол — Сергей Карасёв (Серпухов-Юг)</span></div>
+<div class="i-row"><span class="i-date">61 мин</span><span class="i-desc">Гол — Артём Власов, дубль</span></div>
+<div class="i-row"><span class="i-date">88 мин</span><span class="i-desc">Гол — Илья Жуков, с пенальти</span></div></div>
+<div class="pullquote"><p>«Четырнадцать лет — долгое ожидание. Теперь нас ждёт финал».</p><cite>— Павел Симонов, главный тренер</cite></div>`,
+    tags:['Спорт','Футбол','ФК Домодедово','Областная лига'],
+  },
+  {
+    id:6, cat:'zhkh',
+    title:'Управляющие компании Домодедово обязали публиковать отчёты в открытом доступе',
+    lead:'Постановление главы округа вступит в силу с 1 июля. УК должны будут ежеквартально публиковать данные о расходах и выполненных работах.',
+    date:'2026-06-04', dateStr:'4 июня 2026', author:'Редакция', views:1654, breaking:false,
+    img:'https://elets-adm.ru/assets/images/resources/25085/7362e7802293433c2eeab0df258669535cf24dfc.jpg',
+    imgMd:'https://elets-adm.ru/assets/images/resources/25085/7362e7802293433c2eeab0df258669535cf24dfc.jpg',
+    imgSm:'https://elets-adm.ru/assets/images/resources/25085/7362e7802293433c2eeab0df258669535cf24dfc.jpg',
+    body:`<p>С 1 июля 2026 года УК будут обязаны ежеквартально публиковать финансовую отчётность в открытом доступе.</p>
+<div class="pullquote"><p>«Прозрачность — ключевое условие доверия между управляющими компаниями и жителями».</p><cite>— Пресс-служба администрации Домодедово</cite></div>`,
+    tags:['ЖКХ','Управляющие компании','Прозрачность','Постановление'],
+  },
+  {
+    id:7, cat:'incidents',
+    title:'На пересечении улиц Советской и Кирова столкнулись две легковые машины',
+    lead:'В результате ДТП пострадал один человек, движение на перекрёстке было частично перекрыто в течение 40 минут. ГИБДД устанавливает обстоятельства аварии.',
+    date:'2026-06-03', dateStr:'3 июня 2026', author:'Редакция', views:2876, breaking:false,
+    img:'https://avatars.mds.yandex.net/i?id=2a0000019ea0928b35aee38846ce8c73f65b-898675-fast-images&n=13',
+    imgMd:'https://avatars.mds.yandex.net/i?id=2a0000019ea0928b35aee38846ce8c73f65b-898675-fast-images&n=13',
+    imgSm:'https://avatars.mds.yandex.net/i?id=2a0000019ea0928b35aee38846ce8c73f65b-898675-fast-images&n=13',
+    body:`<p>Во вторник, 3 июня, около 17:30 на перекрёстке улиц Советской и Кирова произошло столкновение двух легковых автомобилей.</p>
+<p>В результате ДТП пострадал водитель Kia — мужчина 34 лет. Он госпитализирован с переломом ключицы и сотрясением мозга.</p>`,
+    tags:['Происшествия','ДТП','ГИБДД','Советская улица'],
+  },
+  {
+    id:8, cat:'society',
+    title:'Домодедовская школа №4 вошла в топ-50 лучших школ Московской области',
+    lead:'По результатам рейтинга Министерства образования Подмосковья школа занимает 43-е место среди 1 800 учебных заведений региона.',
+    date:'2026-06-02', dateStr:'2 июня 2026', author:'Светлана Ковалёва', views:3102, breaking:false,
+    img:'https://avatars.mds.yandex.net/i?id=f5935dd35d57d053c7da35f308e40852_l-10754966-images-thumbs&n=13',
+    imgMd:'https://avatars.mds.yandex.net/i?id=f5935dd35d57d053c7da35f308e40852_l-10754966-images-thumbs&n=13',
+    imgSm:'https://avatars.mds.yandex.net/i?id=f5935dd35d57d053c7da35f308e40852_l-10754966-images-thumbs&n=13',
+    body:`<p>Школа №4 вошла в топ-50 лучших школ Московской области — 43-е место из 1 800 учебных заведений.</p>
+<div class="pullquote"><p>«Это результат многолетнего труда всего коллектива».</p><cite>— Ирина Савченко, директор школы №4</cite></div>`,
+    tags:['Общество','Образование','Школа','Рейтинг'],
+  },
+];
+
+let currentPage='home', currentCat='all', currentArticleId=null;
+
+function getCat(id){ return CATEGORIES.find(c=>c.id===id)||CATEGORIES[0]; }
+function getArt(id){ return ARTICLES.find(a=>a.id===id); }
+function getCatArticles(catId){ return catId==='all'?ARTICLES:ARTICLES.filter(a=>a.cat===catId); }
+function catLabel(id){ const c=getCat(id); return c?c.label:id; }
+function fmtViews(n){ return n>=1000?(n/1000).toFixed(1)+'k':n; }
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
+
+function navigate(page,param){
+  currentPage=page;
+  if(page==='cat') currentCat=param||'all';
+  if(page==='article') currentArticleId=param;
+  renderNav(); renderApp();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function renderNav(){
+  const nav=document.getElementById('navBar');
+  const cats=[{id:'all',label:'Все новости'},...CATEGORIES.filter(c=>!['all','about','contacts'].includes(c.id))];
+  nav.innerHTML=cats.map(c=>`<button class="nav-btn ${(currentPage==='cat'&&currentCat===c.id)||(currentPage==='home'&&c.id==='all')?'active':''}" onclick="navigate('cat','${c.id}')">${c.label}</button>`).join('')+
+    `<button class="nav-btn ${currentPage==='about'?'active':''}" onclick="navigate('about')">О нас</button>`+
+    `<button class="nav-btn ${currentPage==='contacts'?'active':''}" onclick="navigate('contacts')">Контакты</button>`;
+}
+
+function renderApp(){
+  const app=document.getElementById('app');
+  if(currentPage==='home'||(currentPage==='cat'&&currentCat==='all')) app.innerHTML=renderHome();
+  else if(currentPage==='cat') app.innerHTML=renderCat(currentCat);
+  else if(currentPage==='article') app.innerHTML=renderArticle(currentArticleId);
+  else if(currentPage==='about') app.innerHTML=renderAbout();
+  else if(currentPage==='contacts') app.innerHTML=renderContacts();
+}
+
+function renderHome(){
+  const top3=ARTICLES.slice(0,3);
+  const rest=ARTICLES.slice(3);
+  const byViews=[...ARTICLES].sort((a,b)=>b.views-a.views).slice(0,4);
+  return `<div class="sidebar-layout"><main>
+    <div class="home-hero">
+      <div class="hero-main" onclick="navigate('article',${top3[0].id})">
+        <div class="hero-main-img"><img src="${top3[0].img}" alt="${top3[0].title}" loading="eager"></div>
+        <div class="hero-overlay-content">
+          <span class="hero-tag">${catLabel(top3[0].cat)}</span>
+          <div class="hero-title">${top3[0].title}</div>
+          <div class="hero-time">${top3[0].dateStr} · ${fmtViews(top3[0].views)} просмотров</div>
+        </div>
+      </div>
+      <div class="hero-side">
+        ${top3.slice(1).map(a=>`
+        <div class="hero-card" onclick="navigate('article',${a.id})">
+          <div class="hero-card-img"><img src="${a.imgMd}" alt="${a.title}" loading="eager"></div>
+          <div class="hero-overlay-content">
+            <span class="hero-tag">${catLabel(a.cat)}</span>
+            <div class="hero-title">${a.title}</div>
+            <div class="hero-time">${a.dateStr}</div>
+          </div>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-title">Последние новости</div><button class="section-more" onclick="navigate('cat','all')">Все материалы →</button></div>
+      <div class="news-grid">${rest.map(a=>newsCard(a)).join('')}</div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-title">Происшествия</div><button class="section-more" onclick="navigate('cat','incidents')">Ещё →</button></div>
+      <div class="news-list">${getCatArticles('incidents').slice(0,3).map(a=>newsListItem(a)).join('')}</div>
+    </div>
+    <div class="section">
+      <div class="section-header"><div class="section-title">Общество</div><button class="section-more" onclick="navigate('cat','society')">Ещё →</button></div>
+      <div class="news-grid">${getCatArticles('society').map(a=>newsCard(a)).join('')}</div>
+    </div>
+    </main><aside>${weatherWidget()}${topWidget(byViews,'Читают сейчас')}${linksWidget()}</aside></div>`;
+}
+
+function renderCat(catId){
+  const arts=getCatArticles(catId);
+  const cat=getCat(catId);
+  const byViews=[...ARTICLES].sort((a,b)=>b.views-a.views).slice(0,4);
+  return `<button class="back-btn" onclick="navigate('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>На главную</button>
+  <div class="sidebar-layout"><main>
+    <div class="cat-hero"><div class="cat-icon" style="background:${cat.color}22">${cat.icon}</div><div><div class="cat-name">${cat.label}</div><div class="cat-count">${arts.length} ${arts.length===1?'материал':arts.length<5?'материала':'материалов'}</div></div></div>
+    ${arts.length===0?'<p style="color:var(--text3);text-align:center;padding:40px">В этой рубрике пока нет материалов</p>':`<div class="news-list">${arts.map(a=>newsListItem(a)).join('')}</div>`}
+  </main><aside>${weatherWidget()}${topWidget(byViews,'Популярное')}${linksWidget()}</aside></div>`;
+}
+
+function renderArticle(id){
+  const art=getArt(id);
+  if(!art) return '<p style="color:var(--text3);padding:40px;text-align:center">Статья не найдена</p>';
+  const related=ARTICLES.filter(a=>a.id!==id&&a.cat===art.cat).slice(0,3);
+  const byViews=[...ARTICLES].sort((a,b)=>b.views-a.views).filter(a=>a.id!==id).slice(0,4);
+  return `<button class="back-btn" onclick="navigate('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>Назад</button>
+  <div class="sidebar-layout"><article class="article-page">
+    <div class="article-eyebrow"><span class="art-tag" onclick="navigate('cat','${art.cat}')" style="cursor:pointer">${catLabel(art.cat)}</span><time>${art.dateStr}</time></div>
+    <h1 class="art-title">${art.title}</h1>
+    <p class="art-lead">${art.lead}</p>
+    <div class="art-meta"><span class="author">✍️ ${art.author}</span><span>${art.dateStr}</span><span>👁 ${fmtViews(art.views)} просмотров</span><span>⏱ ~3 мин</span></div>
+    <div class="art-hero"><img src="${art.img}" alt="${art.title}" loading="lazy"></div>
+    <p class="art-hero-cap">Иллюстрация: архив редакции</p>
+    <div class="art-body">${art.body}</div>
+    <div class="art-tags">${art.tags.map(t=>`<span onclick="searchByTag('${t}')">${t}</span>`).join('')}</div>
+    ${related.length?`<div class="related-section"><h3>По теме</h3><div class="news-list">${related.map(a=>newsListItem(a)).join('')}</div></div>`:''}
+  </article><aside>${shareWidget(art)}${topWidget(byViews,'Читают сейчас')}${linksWidget()}</aside></div>`;
+}
+
+function renderAbout(){
+  return `<div class="about-page">
+    <h1>О редакции</h1>
+    <p>«Домодедово·Инфо» — независимое городское издание, основанное в 2018 году группой журналистов-энтузиастов. Наша миссия — оперативно и объективно освещать жизнь городского округа Домодедово.</p>
+    <p>Мы не аффилированы с городской администрацией, политическими партиями или коммерческими структурами.</p>
+    <h2>Наша команда</h2>
+    <div class="team-grid">
+      ${[{init:'АГ',name:'Алексей Громов',role:'Главный редактор'},{init:'МВ',name:'Марина Воронова',role:'Политика и власть'},{init:'СК',name:'Светлана Ковалёва',role:'Общество и образование'},{init:'ДО',name:'Дмитрий Орлов',role:'Спорт'},{init:'ИП',name:'Ирина Панкова',role:'ЖКХ'},{init:'РЕД',name:'Редакция',role:'Происшествия и срочные'}].map(p=>`<div class="team-card"><div class="team-avatar">${p.init}</div><div class="team-name">${p.name}</div><div class="team-role">${p.role}</div></div>`).join('')}
+    </div>
+  </div>`;
+}
+
+function renderContacts(){
+  return `<div class="about-page">
+    <h1>Контакты</h1>
+    <p>Мы открыты для обращений жителей, пресс-служб и рекламодателей.</p>
+    <div class="contact-grid">
+      <div class="contact-card"><h3>📧 Редакция</h3><p><a href="mailto:news@domodedovo.info">news@domodedovo.info</a></p></div>
+      <div class="contact-card"><h3>📣 Реклама</h3><p><a href="mailto:adv@domodedovo.info">adv@domodedovo.info</a></p></div>
+      <div class="contact-card"><h3>📍 Адрес</h3><p>г. Домодедово, ул. Советская, 3<br>офис 12, Пн–Пт: 10:00–18:00</p></div>
+      <div class="contact-card"><h3>📞 Телефон</h3><p><a href="tel:+74966220000">+7 (496) 622-00-00</a></p></div>
+      <div class="contact-card"><h3>💬 Telegram</h3><p><a href="https://t.me/domodedovoinfo" target="_blank">@domodedovoinfo</a></p></div>
+      <div class="contact-card"><h3>🆘 Добродел</h3><p><a href="https://dobrodel.mosreg.ru" target="_blank">dobrodel.mosreg.ru</a></p></div>
+    </div>
+  </div>`;
+}
+
+function newsCard(a){
+  return `<div class="news-card" onclick="navigate('article',${a.id})">
+    <div class="news-card-img"><img src="${a.imgMd}" alt="${a.title}" loading="lazy"></div>
+    <div class="news-card-body">
+      <div class="news-card-tag">${catLabel(a.cat)}</div>
+      <div class="news-card-title">${a.title}</div>
+      <div class="news-card-lead">${a.lead}</div>
+      <div class="news-card-footer"><span>${a.dateStr}</span><span>👁 ${fmtViews(a.views)}</span></div>
+    </div>
+  </div>`;
+}
+
+function newsListItem(a){
+  return `<div class="news-list-item" onclick="navigate('article',${a.id})">
+    <div class="news-list-img"><img src="${a.imgSm}" alt="${a.title}" loading="lazy"></div>
+    <div class="news-list-body">
+      <div class="news-list-tag">${catLabel(a.cat)}</div>
+      <div class="news-list-title">${a.title}</div>
+      <div class="news-list-lead">${a.lead}</div>
+      <div class="news-list-meta">${a.dateStr} · 👁 ${fmtViews(a.views)}</div>
+    </div>
+  </div>`;
+}
+
+function topWidget(arts,title){
+  return `<div class="widget"><div class="widget-head">${title}</div>${arts.map((a,i)=>`<div class="top-item" onclick="navigate('article',${a.id})"><span class="top-num">${i+1}</span><div class="top-title">${a.title}<time>${a.dateStr}</time></div></div>`).join('')}</div>`;
+}
+
+function weatherWidget(){
+  return `<div class="widget"><div class="widget-head">Погода в Домодедово</div><div class="weather-widget">
+    <div style="display:flex;align-items:center;gap:12px"><span style="font-size:36px">⛅</span><div><div class="weather-big">+21°C</div><div class="weather-desc">Переменная облачность</div></div></div>
+    <div class="weather-row">
+      <div class="weather-mini"><div class="day">Сег</div><div style="font-size:18px">⛅</div><div class="temp">+21°</div></div>
+      <div class="weather-mini"><div class="day">Зав</div><div style="font-size:18px">🌧</div><div class="temp">+18°</div></div>
+      <div class="weather-mini"><div class="day">Ср</div><div style="font-size:18px">☀️</div><div class="temp">+23°</div></div>
+    </div>
+  </div></div>`;
+}
+
+function shareWidget(art){
+  return `<div class="widget"><div class="widget-head">Поделиться</div><div style="padding:14px;display:flex;flex-direction:column;gap:8px">
+    <button onclick="shareArticle('vk','${art.title.replace(/'/g,"\\\'")}')" style="padding:9px;background:var(--navy3);border:1px solid var(--border);border-radius:5px;color:var(--text2);font-size:13px;cursor:pointer;text-align:left">ВКонтакте</button>
+    <button onclick="shareArticle('tg','${art.title.replace(/'/g,"\\\'")}')" style="padding:9px;background:var(--navy3);border:1px solid var(--border);border-radius:5px;color:var(--text2);font-size:13px;cursor:pointer;text-align:left">Telegram</button>
+    <button onclick="copyLink()" style="padding:9px;background:var(--navy3);border:1px solid var(--border);border-radius:5px;color:var(--text2);font-size:13px;cursor:pointer;text-align:left">📋 Скопировать ссылку</button>
+  </div></div>`;
+}
+
+function linksWidget(){
+  return `<div class="widget"><div class="widget-head">Полезные ссылки</div><div style="padding:14px;display:flex;flex-direction:column;gap:6px;font-size:13px">
+    <a href="https://dobrodel.mosreg.ru" target="_blank" style="color:var(--accent);text-decoration:none">🟢 Портал «Добродел»</a>
+    <a href="https://domodedovo.ru" target="_blank" style="color:var(--text2);text-decoration:none">🏛 Сайт администрации</a>
+    <div style="padding:8px 0;border-top:1px solid var(--border);margin-top:4px;font-size:12px;color:var(--text3)">Горячая линия ЖКХ:<br><strong style="color:var(--text)">8-800-100-34-34</strong></div>
+    <div style="font-size:12px;color:var(--text3)">Участковый:<br><strong style="color:var(--text)">102</strong></div>
+  </div></div>`;
+}
+
+function renderDate(){
+  const d=new Date(2026,5,9);
+  document.getElementById('headerDate').textContent=d.toLocaleDateString('ru-RU',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+}
+
+function initSearch(){
+  const input=document.getElementById('searchInput');
+  const results=document.getElementById('searchResults');
+  input.addEventListener('input',()=>{
+    const q=input.value.trim().toLowerCase();
+    if(q.length<2){results.classList.remove('open');return;}
+    const found=ARTICLES.filter(a=>a.title.toLowerCase().includes(q)||a.lead.toLowerCase().includes(q)||a.tags.some(t=>t.toLowerCase().includes(q)));
+    results.innerHTML=found.length?found.map(a=>`<div class="search-result-item" onclick="results.classList.remove('open');input.value='';navigate('article',${a.id})"><div class="sr-tag">${catLabel(a.cat)}</div><div class="sr-title">${a.title}</div></div>`).join(''):'<div class="search-result-item"><span class="sr-tag">Ничего не найдено</span></div>';
+    results.classList.add('open');
+  });
+  document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))results.classList.remove('open');});
+}
+
+function searchByTag(tag){
+  const found=ARTICLES.filter(a=>a.tags.includes(tag));
+  navigate('cat','all');
+  setTimeout(()=>{
+    const main=document.querySelector('.news-list');
+    if(main)main.innerHTML=found.map(a=>newsListItem(a)).join('');
+    const head=document.querySelector('.cat-hero .cat-name');
+    if(head)head.textContent='Тег: '+tag;
+  },10);
+}
+
+function shareArticle(platform,title){
+  const url=window.location.href;
+  if(platform==='tg')window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,'_blank');
+  else window.open(`https://vk.com/share.php?url=${encodeURIComponent(url)}`,'_blank');
+}
+
+function copyLink(){
+  try{navigator.clipboard.writeText(window.location.href);showToast('Ссылка скопирована!');}
+  catch(e){showToast('Скопируйте адрес из строки браузера');}
+}
+
+renderDate();
+renderNav();
+renderApp();
+initSearch();
+</script>
+</body>
+</html>
